@@ -18,13 +18,21 @@ trainLabel=read.table(file)
 file=paste0(getwd(),'/getdata-projectfiles-UCI HAR Dataset/UCI HAR Dataset/test/y_test.txt')
 testLabel=read.table(file)
 
+file=paste0(getwd(),'/getdata-projectfiles-UCI HAR Dataset/UCI HAR Dataset/features.txt')
+namesFeatures=read.table(file)
+
+file=paste0(getwd(),'/getdata-projectfiles-UCI HAR Dataset/UCI HAR Dataset/activity_labels.txt')
+namesActivities=read.table(file)
+
+# load subjects IDs
+file=paste0(getwd(),'/getdata-projectfiles-UCI HAR Dataset/UCI HAR Dataset/train/subject_train.txt')
+trainSubj=read.table(file)
+file=paste0(getwd(),'/getdata-projectfiles-UCI HAR Dataset/UCI HAR Dataset/test/subject_test.txt')
+testSubj=read.table(file)
+
 # merga data
 data=rbind(cbind(train,trainLabel),cbind(test,testLabel))
 names(data)[ncol(data)]='activity'
-
-# load & assign names
-file=paste0(getwd(),'/getdata-projectfiles-UCI HAR Dataset/UCI HAR Dataset/features.txt')
-namesFeatures=read.table(file)
 names(data)[1:(ncol(data)-1)]=as.character(namesFeatures[,2])
 
 # 2. extract only means and std:
@@ -35,20 +43,12 @@ names(data)[ncol(data)]='activity'
 # 3. & 4 name the activities with descriptive activity names:
 
 # load activity names
-file=paste0(getwd(),'/getdata-projectfiles-UCI HAR Dataset/UCI HAR Dataset/activity_labels.txt')
-namesActivities=read.table(file)
 namesActivities=as.character(namesActivities[,2])
 
 # assign activity names
 data$activity=as.factor(namesActivities[data$activity])
 
 # 5. second data set with means for each subject and activity:
-
-# load subjects IDs
-file=paste0(getwd(),'/getdata-projectfiles-UCI HAR Dataset/UCI HAR Dataset/train/subject_train.txt')
-trainSubj=read.table(file)
-file=paste0(getwd(),'/getdata-projectfiles-UCI HAR Dataset/UCI HAR Dataset/test/subject_test.txt')
-testSubj=read.table(file)
 
 # assign IDs
 data2=cbind(rbind(trainSubj,testSubj),data)
