@@ -26,7 +26,7 @@ The objective of the script *run_analysis.R* is to build a new tidy data set fro
 2. Extracts only the measurements on the mean and standard deviation for each measurement. 
 3. Uses descriptive activity names to name the activities in the data set
 4. Appropriately labels the data set with descriptive activity names. 
-5- Creates a second, independent tidy data set with the average of each variable for each activity and each subject. 
+5. Creates a second, independent tidy data set with the average of each variable for each activity and each subject. 
 
 ## Steps:
 
@@ -34,20 +34,6 @@ The objective of the script *run_analysis.R* is to build a new tidy data set fro
 
 ```r
 setwd("C:/Users/miguel/Documents/coursera/getting & cleaning Data")
-getwd()
-```
-
-```
-## [1] "C:/Users/miguel/Documents/coursera/getting & cleaning Data"
-```
-
-```r
-list.files(paste0(getwd(), "/getdata-projectfiles-UCI HAR Dataset/UCI HAR Dataset/train"))
-```
-
-```
-## [1] "Inertial Signals"  "subject_train.txt" "X_train.txt"      
-## [4] "y_train.txt"
 ```
 
 
@@ -56,129 +42,20 @@ list.files(paste0(getwd(), "/getdata-projectfiles-UCI HAR Dataset/UCI HAR Datase
 ```r
 file = paste0(getwd(), "/getdata-projectfiles-UCI HAR Dataset/UCI HAR Dataset/train/X_train.txt")
 train = read.table(file)
-```
-
-```
-## Warning: no fue posible abrir el archivo
-## 'C:/Users/miguel/Documents/coursera/getting & cleaning
-## Data/getdata_assessment/getdata-projectfiles-UCI HAR Dataset/UCI HAR
-## Dataset/train/X_train.txt': No such file or directory
-```
-
-```
-## Error: no se puede abrir la conexión
-```
-
-```r
 file = paste0(getwd(), "/getdata-projectfiles-UCI HAR Dataset/UCI HAR Dataset/test/X_test.txt")
 test = read.table(file)
-```
-
-```
-## Warning: no fue posible abrir el archivo
-## 'C:/Users/miguel/Documents/coursera/getting & cleaning
-## Data/getdata_assessment/getdata-projectfiles-UCI HAR Dataset/UCI HAR
-## Dataset/test/X_test.txt': No such file or directory
-```
-
-```
-## Error: no se puede abrir la conexión
-```
-
-```r
 file = paste0(getwd(), "/getdata-projectfiles-UCI HAR Dataset/UCI HAR Dataset/train/y_train.txt")
 trainLabel = read.table(file)
-```
-
-```
-## Warning: no fue posible abrir el archivo
-## 'C:/Users/miguel/Documents/coursera/getting & cleaning
-## Data/getdata_assessment/getdata-projectfiles-UCI HAR Dataset/UCI HAR
-## Dataset/train/y_train.txt': No such file or directory
-```
-
-```
-## Error: no se puede abrir la conexión
-```
-
-```r
 file = paste0(getwd(), "/getdata-projectfiles-UCI HAR Dataset/UCI HAR Dataset/test/y_test.txt")
 testLabel = read.table(file)
-```
-
-```
-## Warning: no fue posible abrir el archivo
-## 'C:/Users/miguel/Documents/coursera/getting & cleaning
-## Data/getdata_assessment/getdata-projectfiles-UCI HAR Dataset/UCI HAR
-## Dataset/test/y_test.txt': No such file or directory
-```
-
-```
-## Error: no se puede abrir la conexión
-```
-
-```r
 file = paste0(getwd(), "/getdata-projectfiles-UCI HAR Dataset/UCI HAR Dataset/features.txt")
 namesFeatures = read.table(file)
-```
-
-```
-## Warning: no fue posible abrir el archivo
-## 'C:/Users/miguel/Documents/coursera/getting & cleaning
-## Data/getdata_assessment/getdata-projectfiles-UCI HAR Dataset/UCI HAR
-## Dataset/features.txt': No such file or directory
-```
-
-```
-## Error: no se puede abrir la conexión
-```
-
-```r
 file = paste0(getwd(), "/getdata-projectfiles-UCI HAR Dataset/UCI HAR Dataset/activity_labels.txt")
 namesActivities = read.table(file)
-```
-
-```
-## Warning: no fue posible abrir el archivo
-## 'C:/Users/miguel/Documents/coursera/getting & cleaning
-## Data/getdata_assessment/getdata-projectfiles-UCI HAR Dataset/UCI HAR
-## Dataset/activity_labels.txt': No such file or directory
-```
-
-```
-## Error: no se puede abrir la conexión
-```
-
-```r
 file = paste0(getwd(), "/getdata-projectfiles-UCI HAR Dataset/UCI HAR Dataset/train/subject_train.txt")
 trainSubj = read.table(file)
-```
-
-```
-## Warning: no fue posible abrir el archivo
-## 'C:/Users/miguel/Documents/coursera/getting & cleaning
-## Data/getdata_assessment/getdata-projectfiles-UCI HAR Dataset/UCI HAR
-## Dataset/train/subject_train.txt': No such file or directory
-```
-
-```
-## Error: no se puede abrir la conexión
-```
-
-```r
 file = paste0(getwd(), "/getdata-projectfiles-UCI HAR Dataset/UCI HAR Dataset/test/subject_test.txt")
 testSubj = read.table(file)
-```
-
-```
-## Warning: no fue posible abrir el archivo
-## 'C:/Users/miguel/Documents/coursera/getting & cleaning
-## Data/getdata_assessment/getdata-projectfiles-UCI HAR Dataset/UCI HAR
-## Dataset/test/subject_test.txt': No such file or directory
-```
-
-```
-## Error: no se puede abrir la conexión
 ```
 
 
@@ -186,26 +63,35 @@ testSubj = read.table(file)
 
 ```r
 data = rbind(cbind(train, trainLabel), cbind(test, testLabel))
-```
-
-```
-## Error: objeto 'train' no encontrado
-```
-
-```r
 names(data)[ncol(data)] = "activity"
-```
-
-```
-## Error: names() aplicado a un objeto que no es un vector
-```
-
-```r
 names(data)[1:(ncol(data) - 1)] = as.character(namesFeatures[, 2])
 ```
 
+
+Show the number of rows for train, test and whole data:
+
+```r
+nrow(train)
 ```
-## Error: objeto 'namesFeatures' no encontrado
+
+```
+## [1] 7352
+```
+
+```r
+nrow(test)
+```
+
+```
+## [1] 2947
+```
+
+```r
+nrow(data)
+```
+
+```
+## [1] 10299
 ```
 
 
@@ -214,18 +100,51 @@ names(data)[1:(ncol(data) - 1)] = as.character(namesFeatures[, 2])
 ```r
 data = cbind(data[, which((grepl("mean", names(data)) | grepl("std", names(data))) & 
     !(grepl("meanFreq", names(data))))], data[, ncol(data)])
-```
-
-```
-## Error: objeto de tipo 'closure' no es subconjunto
-```
-
-```r
 names(data)[ncol(data)] = "activity"
 ```
 
+
+Show the names of the columns:
+
+```r
+names(data)
 ```
-## Error: names() aplicado a un objeto que no es un vector
+
+```
+##  [1] "tBodyAcc-mean()-X"           "tBodyAcc-mean()-Y"          
+##  [3] "tBodyAcc-mean()-Z"           "tBodyAcc-std()-X"           
+##  [5] "tBodyAcc-std()-Y"            "tBodyAcc-std()-Z"           
+##  [7] "tGravityAcc-mean()-X"        "tGravityAcc-mean()-Y"       
+##  [9] "tGravityAcc-mean()-Z"        "tGravityAcc-std()-X"        
+## [11] "tGravityAcc-std()-Y"         "tGravityAcc-std()-Z"        
+## [13] "tBodyAccJerk-mean()-X"       "tBodyAccJerk-mean()-Y"      
+## [15] "tBodyAccJerk-mean()-Z"       "tBodyAccJerk-std()-X"       
+## [17] "tBodyAccJerk-std()-Y"        "tBodyAccJerk-std()-Z"       
+## [19] "tBodyGyro-mean()-X"          "tBodyGyro-mean()-Y"         
+## [21] "tBodyGyro-mean()-Z"          "tBodyGyro-std()-X"          
+## [23] "tBodyGyro-std()-Y"           "tBodyGyro-std()-Z"          
+## [25] "tBodyGyroJerk-mean()-X"      "tBodyGyroJerk-mean()-Y"     
+## [27] "tBodyGyroJerk-mean()-Z"      "tBodyGyroJerk-std()-X"      
+## [29] "tBodyGyroJerk-std()-Y"       "tBodyGyroJerk-std()-Z"      
+## [31] "tBodyAccMag-mean()"          "tBodyAccMag-std()"          
+## [33] "tGravityAccMag-mean()"       "tGravityAccMag-std()"       
+## [35] "tBodyAccJerkMag-mean()"      "tBodyAccJerkMag-std()"      
+## [37] "tBodyGyroMag-mean()"         "tBodyGyroMag-std()"         
+## [39] "tBodyGyroJerkMag-mean()"     "tBodyGyroJerkMag-std()"     
+## [41] "fBodyAcc-mean()-X"           "fBodyAcc-mean()-Y"          
+## [43] "fBodyAcc-mean()-Z"           "fBodyAcc-std()-X"           
+## [45] "fBodyAcc-std()-Y"            "fBodyAcc-std()-Z"           
+## [47] "fBodyAccJerk-mean()-X"       "fBodyAccJerk-mean()-Y"      
+## [49] "fBodyAccJerk-mean()-Z"       "fBodyAccJerk-std()-X"       
+## [51] "fBodyAccJerk-std()-Y"        "fBodyAccJerk-std()-Z"       
+## [53] "fBodyGyro-mean()-X"          "fBodyGyro-mean()-Y"         
+## [55] "fBodyGyro-mean()-Z"          "fBodyGyro-std()-X"          
+## [57] "fBodyGyro-std()-Y"           "fBodyGyro-std()-Z"          
+## [59] "fBodyAccMag-mean()"          "fBodyAccMag-std()"          
+## [61] "fBodyBodyAccJerkMag-mean()"  "fBodyBodyAccJerkMag-std()"  
+## [63] "fBodyBodyGyroMag-mean()"     "fBodyBodyGyroMag-std()"     
+## [65] "fBodyBodyGyroJerkMag-mean()" "fBodyBodyGyroJerkMag-std()" 
+## [67] "activity"
 ```
 
 
@@ -233,18 +152,19 @@ names(data)[ncol(data)] = "activity"
 
 ```r
 namesActivities = as.character(namesActivities[, 2])
-```
-
-```
-## Error: objeto 'namesActivities' no encontrado
-```
-
-```r
 data$activity = as.factor(namesActivities[data$activity])
 ```
 
+
+Show new names for activities:
+
+```r
+namesActivities
 ```
-## Error: objeto 'namesActivities' no encontrado
+
+```
+## [1] "WALKING"            "WALKING_UPSTAIRS"   "WALKING_DOWNSTAIRS"
+## [4] "SITTING"            "STANDING"           "LAYING"
 ```
 
 
@@ -253,53 +173,25 @@ data$activity = as.factor(namesActivities[data$activity])
 ```r
 # assign IDs
 data2 = cbind(rbind(trainSubj, testSubj), data)
-```
-
-```
-## Error: objeto 'trainSubj' no encontrado
-```
-
-```r
 names(data2)[1] = "SubjectID"
-```
-
-```
-## Error: objeto 'data2' no encontrado
-```
-
-```r
 data2[, 1] = as.factor(data2[, 1])
-```
-
-```
-## Error: objeto 'data2' no encontrado
-```
-
-```r
 
 # means for subject and activity
 data3 = as.data.frame(cbind(1:30, tapply(data2[, 2], data2[, 1], FUN = mean)))
-```
-
-```
-## Error: objeto 'data2' no encontrado
-```
-
-```r
 for (i in 3:(ncol(data2) - 1)) {
     data3 = cbind(data3, tapply(data2[, i], data2[, 1], FUN = mean))
 }
-```
-
-```
-## Error: objeto 'data2' no encontrado
-```
-
-```r
 names(data3) = names(data2)[-ncol(data2)]
 ```
 
+
+Show number of rows of data to see that is has been shorten because now it only has means:
+
+```r
+nrow(data3)
 ```
-## Error: objeto 'data2' no encontrado
+
+```
+## [1] 30
 ```
 

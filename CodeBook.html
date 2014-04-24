@@ -206,8 +206,8 @@ hljs.initHighlightingOnLoad();
 <li>Merges the training and the test sets to create one data set.</li>
 <li>Extracts only the measurements on the mean and standard deviation for each measurement. </li>
 <li>Uses descriptive activity names to name the activities in the data set</li>
-<li>Appropriately labels the data set with descriptive activity names. 
-5- Creates a second, independent tidy data set with the average of each variable for each activity and each subject. </li>
+<li>Appropriately labels the data set with descriptive activity names. </li>
+<li>Creates a second, independent tidy data set with the average of each variable for each activity and each subject. </li>
 </ol>
 
 <h2>Steps:</h2>
@@ -217,17 +217,6 @@ hljs.initHighlightingOnLoad();
 </ul>
 
 <pre><code class="r">setwd(&quot;C:/Users/miguel/Documents/coursera/getting &amp; cleaning Data&quot;)
-getwd()
-</code></pre>
-
-<pre><code>## [1] &quot;C:/Users/miguel/Documents/coursera/getting &amp; cleaning Data&quot;
-</code></pre>
-
-<pre><code class="r">list.files(paste0(getwd(), &quot;/getdata-projectfiles-UCI HAR Dataset/UCI HAR Dataset/train&quot;))
-</code></pre>
-
-<pre><code>## [1] &quot;Inertial Signals&quot;  &quot;subject_train.txt&quot; &quot;X_train.txt&quot;      
-## [4] &quot;y_train.txt&quot;
 </code></pre>
 
 <ul>
@@ -236,106 +225,20 @@ getwd()
 
 <pre><code class="r">file = paste0(getwd(), &quot;/getdata-projectfiles-UCI HAR Dataset/UCI HAR Dataset/train/X_train.txt&quot;)
 train = read.table(file)
-</code></pre>
-
-<pre><code>## Warning: no fue posible abrir el archivo
-## &#39;C:/Users/miguel/Documents/coursera/getting &amp; cleaning
-## Data/getdata_assessment/getdata-projectfiles-UCI HAR Dataset/UCI HAR
-## Dataset/train/X_train.txt&#39;: No such file or directory
-</code></pre>
-
-<pre><code>## Error: no se puede abrir la conexi?n
-</code></pre>
-
-<pre><code class="r">file = paste0(getwd(), &quot;/getdata-projectfiles-UCI HAR Dataset/UCI HAR Dataset/test/X_test.txt&quot;)
+file = paste0(getwd(), &quot;/getdata-projectfiles-UCI HAR Dataset/UCI HAR Dataset/test/X_test.txt&quot;)
 test = read.table(file)
-</code></pre>
-
-<pre><code>## Warning: no fue posible abrir el archivo
-## &#39;C:/Users/miguel/Documents/coursera/getting &amp; cleaning
-## Data/getdata_assessment/getdata-projectfiles-UCI HAR Dataset/UCI HAR
-## Dataset/test/X_test.txt&#39;: No such file or directory
-</code></pre>
-
-<pre><code>## Error: no se puede abrir la conexi?n
-</code></pre>
-
-<pre><code class="r">file = paste0(getwd(), &quot;/getdata-projectfiles-UCI HAR Dataset/UCI HAR Dataset/train/y_train.txt&quot;)
+file = paste0(getwd(), &quot;/getdata-projectfiles-UCI HAR Dataset/UCI HAR Dataset/train/y_train.txt&quot;)
 trainLabel = read.table(file)
-</code></pre>
-
-<pre><code>## Warning: no fue posible abrir el archivo
-## &#39;C:/Users/miguel/Documents/coursera/getting &amp; cleaning
-## Data/getdata_assessment/getdata-projectfiles-UCI HAR Dataset/UCI HAR
-## Dataset/train/y_train.txt&#39;: No such file or directory
-</code></pre>
-
-<pre><code>## Error: no se puede abrir la conexi?n
-</code></pre>
-
-<pre><code class="r">file = paste0(getwd(), &quot;/getdata-projectfiles-UCI HAR Dataset/UCI HAR Dataset/test/y_test.txt&quot;)
+file = paste0(getwd(), &quot;/getdata-projectfiles-UCI HAR Dataset/UCI HAR Dataset/test/y_test.txt&quot;)
 testLabel = read.table(file)
-</code></pre>
-
-<pre><code>## Warning: no fue posible abrir el archivo
-## &#39;C:/Users/miguel/Documents/coursera/getting &amp; cleaning
-## Data/getdata_assessment/getdata-projectfiles-UCI HAR Dataset/UCI HAR
-## Dataset/test/y_test.txt&#39;: No such file or directory
-</code></pre>
-
-<pre><code>## Error: no se puede abrir la conexi?n
-</code></pre>
-
-<pre><code class="r">file = paste0(getwd(), &quot;/getdata-projectfiles-UCI HAR Dataset/UCI HAR Dataset/features.txt&quot;)
+file = paste0(getwd(), &quot;/getdata-projectfiles-UCI HAR Dataset/UCI HAR Dataset/features.txt&quot;)
 namesFeatures = read.table(file)
-</code></pre>
-
-<pre><code>## Warning: no fue posible abrir el archivo
-## &#39;C:/Users/miguel/Documents/coursera/getting &amp; cleaning
-## Data/getdata_assessment/getdata-projectfiles-UCI HAR Dataset/UCI HAR
-## Dataset/features.txt&#39;: No such file or directory
-</code></pre>
-
-<pre><code>## Error: no se puede abrir la conexi?n
-</code></pre>
-
-<pre><code class="r">file = paste0(getwd(), &quot;/getdata-projectfiles-UCI HAR Dataset/UCI HAR Dataset/activity_labels.txt&quot;)
+file = paste0(getwd(), &quot;/getdata-projectfiles-UCI HAR Dataset/UCI HAR Dataset/activity_labels.txt&quot;)
 namesActivities = read.table(file)
-</code></pre>
-
-<pre><code>## Warning: no fue posible abrir el archivo
-## &#39;C:/Users/miguel/Documents/coursera/getting &amp; cleaning
-## Data/getdata_assessment/getdata-projectfiles-UCI HAR Dataset/UCI HAR
-## Dataset/activity_labels.txt&#39;: No such file or directory
-</code></pre>
-
-<pre><code>## Error: no se puede abrir la conexi?n
-</code></pre>
-
-<pre><code class="r">file = paste0(getwd(), &quot;/getdata-projectfiles-UCI HAR Dataset/UCI HAR Dataset/train/subject_train.txt&quot;)
+file = paste0(getwd(), &quot;/getdata-projectfiles-UCI HAR Dataset/UCI HAR Dataset/train/subject_train.txt&quot;)
 trainSubj = read.table(file)
-</code></pre>
-
-<pre><code>## Warning: no fue posible abrir el archivo
-## &#39;C:/Users/miguel/Documents/coursera/getting &amp; cleaning
-## Data/getdata_assessment/getdata-projectfiles-UCI HAR Dataset/UCI HAR
-## Dataset/train/subject_train.txt&#39;: No such file or directory
-</code></pre>
-
-<pre><code>## Error: no se puede abrir la conexi?n
-</code></pre>
-
-<pre><code class="r">file = paste0(getwd(), &quot;/getdata-projectfiles-UCI HAR Dataset/UCI HAR Dataset/test/subject_test.txt&quot;)
+file = paste0(getwd(), &quot;/getdata-projectfiles-UCI HAR Dataset/UCI HAR Dataset/test/subject_test.txt&quot;)
 testSubj = read.table(file)
-</code></pre>
-
-<pre><code>## Warning: no fue posible abrir el archivo
-## &#39;C:/Users/miguel/Documents/coursera/getting &amp; cleaning
-## Data/getdata_assessment/getdata-projectfiles-UCI HAR Dataset/UCI HAR
-## Dataset/test/subject_test.txt&#39;: No such file or directory
-</code></pre>
-
-<pre><code>## Error: no se puede abrir la conexi?n
 </code></pre>
 
 <ul>
@@ -343,21 +246,28 @@ testSubj = read.table(file)
 </ul>
 
 <pre><code class="r">data = rbind(cbind(train, trainLabel), cbind(test, testLabel))
+names(data)[ncol(data)] = &quot;activity&quot;
+names(data)[1:(ncol(data) - 1)] = as.character(namesFeatures[, 2])
 </code></pre>
 
-<pre><code>## Error: objeto &#39;train&#39; no encontrado
+<p>Show the number of rows for train, test and whole data:</p>
+
+<pre><code class="r">nrow(train)
 </code></pre>
 
-<pre><code class="r">names(data)[ncol(data)] = &quot;activity&quot;
+<pre><code>## [1] 7352
 </code></pre>
 
-<pre><code>## Error: names() aplicado a un objeto que no es un vector
+<pre><code class="r">nrow(test)
 </code></pre>
 
-<pre><code class="r">names(data)[1:(ncol(data) - 1)] = as.character(namesFeatures[, 2])
+<pre><code>## [1] 2947
 </code></pre>
 
-<pre><code>## Error: objeto &#39;namesFeatures&#39; no encontrado
+<pre><code class="r">nrow(data)
+</code></pre>
+
+<pre><code>## [1] 10299
 </code></pre>
 
 <ul>
@@ -366,15 +276,48 @@ testSubj = read.table(file)
 
 <pre><code class="r">data = cbind(data[, which((grepl(&quot;mean&quot;, names(data)) | grepl(&quot;std&quot;, names(data))) &amp; 
     !(grepl(&quot;meanFreq&quot;, names(data))))], data[, ncol(data)])
+names(data)[ncol(data)] = &quot;activity&quot;
 </code></pre>
 
-<pre><code>## Error: objeto de tipo &#39;closure&#39; no es subconjunto
+<p>Show the names of the columns:</p>
+
+<pre><code class="r">names(data)
 </code></pre>
 
-<pre><code class="r">names(data)[ncol(data)] = &quot;activity&quot;
-</code></pre>
-
-<pre><code>## Error: names() aplicado a un objeto que no es un vector
+<pre><code>##  [1] &quot;tBodyAcc-mean()-X&quot;           &quot;tBodyAcc-mean()-Y&quot;          
+##  [3] &quot;tBodyAcc-mean()-Z&quot;           &quot;tBodyAcc-std()-X&quot;           
+##  [5] &quot;tBodyAcc-std()-Y&quot;            &quot;tBodyAcc-std()-Z&quot;           
+##  [7] &quot;tGravityAcc-mean()-X&quot;        &quot;tGravityAcc-mean()-Y&quot;       
+##  [9] &quot;tGravityAcc-mean()-Z&quot;        &quot;tGravityAcc-std()-X&quot;        
+## [11] &quot;tGravityAcc-std()-Y&quot;         &quot;tGravityAcc-std()-Z&quot;        
+## [13] &quot;tBodyAccJerk-mean()-X&quot;       &quot;tBodyAccJerk-mean()-Y&quot;      
+## [15] &quot;tBodyAccJerk-mean()-Z&quot;       &quot;tBodyAccJerk-std()-X&quot;       
+## [17] &quot;tBodyAccJerk-std()-Y&quot;        &quot;tBodyAccJerk-std()-Z&quot;       
+## [19] &quot;tBodyGyro-mean()-X&quot;          &quot;tBodyGyro-mean()-Y&quot;         
+## [21] &quot;tBodyGyro-mean()-Z&quot;          &quot;tBodyGyro-std()-X&quot;          
+## [23] &quot;tBodyGyro-std()-Y&quot;           &quot;tBodyGyro-std()-Z&quot;          
+## [25] &quot;tBodyGyroJerk-mean()-X&quot;      &quot;tBodyGyroJerk-mean()-Y&quot;     
+## [27] &quot;tBodyGyroJerk-mean()-Z&quot;      &quot;tBodyGyroJerk-std()-X&quot;      
+## [29] &quot;tBodyGyroJerk-std()-Y&quot;       &quot;tBodyGyroJerk-std()-Z&quot;      
+## [31] &quot;tBodyAccMag-mean()&quot;          &quot;tBodyAccMag-std()&quot;          
+## [33] &quot;tGravityAccMag-mean()&quot;       &quot;tGravityAccMag-std()&quot;       
+## [35] &quot;tBodyAccJerkMag-mean()&quot;      &quot;tBodyAccJerkMag-std()&quot;      
+## [37] &quot;tBodyGyroMag-mean()&quot;         &quot;tBodyGyroMag-std()&quot;         
+## [39] &quot;tBodyGyroJerkMag-mean()&quot;     &quot;tBodyGyroJerkMag-std()&quot;     
+## [41] &quot;fBodyAcc-mean()-X&quot;           &quot;fBodyAcc-mean()-Y&quot;          
+## [43] &quot;fBodyAcc-mean()-Z&quot;           &quot;fBodyAcc-std()-X&quot;           
+## [45] &quot;fBodyAcc-std()-Y&quot;            &quot;fBodyAcc-std()-Z&quot;           
+## [47] &quot;fBodyAccJerk-mean()-X&quot;       &quot;fBodyAccJerk-mean()-Y&quot;      
+## [49] &quot;fBodyAccJerk-mean()-Z&quot;       &quot;fBodyAccJerk-std()-X&quot;       
+## [51] &quot;fBodyAccJerk-std()-Y&quot;        &quot;fBodyAccJerk-std()-Z&quot;       
+## [53] &quot;fBodyGyro-mean()-X&quot;          &quot;fBodyGyro-mean()-Y&quot;         
+## [55] &quot;fBodyGyro-mean()-Z&quot;          &quot;fBodyGyro-std()-X&quot;          
+## [57] &quot;fBodyGyro-std()-Y&quot;           &quot;fBodyGyro-std()-Z&quot;          
+## [59] &quot;fBodyAccMag-mean()&quot;          &quot;fBodyAccMag-std()&quot;          
+## [61] &quot;fBodyBodyAccJerkMag-mean()&quot;  &quot;fBodyBodyAccJerkMag-std()&quot;  
+## [63] &quot;fBodyBodyGyroMag-mean()&quot;     &quot;fBodyBodyGyroMag-std()&quot;     
+## [65] &quot;fBodyBodyGyroJerkMag-mean()&quot; &quot;fBodyBodyGyroJerkMag-std()&quot; 
+## [67] &quot;activity&quot;
 </code></pre>
 
 <ul>
@@ -382,15 +325,16 @@ testSubj = read.table(file)
 </ul>
 
 <pre><code class="r">namesActivities = as.character(namesActivities[, 2])
+data$activity = as.factor(namesActivities[data$activity])
 </code></pre>
 
-<pre><code>## Error: objeto &#39;namesActivities&#39; no encontrado
+<p>Show new names for activities:</p>
+
+<pre><code class="r">namesActivities
 </code></pre>
 
-<pre><code class="r">data$activity = as.factor(namesActivities[data$activity])
-</code></pre>
-
-<pre><code>## Error: objeto &#39;namesActivities&#39; no encontrado
+<pre><code>## [1] &quot;WALKING&quot;            &quot;WALKING_UPSTAIRS&quot;   &quot;WALKING_DOWNSTAIRS&quot;
+## [4] &quot;SITTING&quot;            &quot;STANDING&quot;           &quot;LAYING&quot;
 </code></pre>
 
 <ul>
@@ -399,43 +343,23 @@ testSubj = read.table(file)
 
 <pre><code class="r"># assign IDs
 data2 = cbind(rbind(trainSubj, testSubj), data)
-</code></pre>
+names(data2)[1] = &quot;SubjectID&quot;
+data2[, 1] = as.factor(data2[, 1])
 
-<pre><code>## Error: objeto &#39;trainSubj&#39; no encontrado
-</code></pre>
-
-<pre><code class="r">names(data2)[1] = &quot;SubjectID&quot;
-</code></pre>
-
-<pre><code>## Error: objeto &#39;data2&#39; no encontrado
-</code></pre>
-
-<pre><code class="r">data2[, 1] = as.factor(data2[, 1])
-</code></pre>
-
-<pre><code>## Error: objeto &#39;data2&#39; no encontrado
-</code></pre>
-
-<pre><code class="r">
 # means for subject and activity
 data3 = as.data.frame(cbind(1:30, tapply(data2[, 2], data2[, 1], FUN = mean)))
-</code></pre>
-
-<pre><code>## Error: objeto &#39;data2&#39; no encontrado
-</code></pre>
-
-<pre><code class="r">for (i in 3:(ncol(data2) - 1)) {
+for (i in 3:(ncol(data2) - 1)) {
     data3 = cbind(data3, tapply(data2[, i], data2[, 1], FUN = mean))
 }
+names(data3) = names(data2)[-ncol(data2)]
 </code></pre>
 
-<pre><code>## Error: objeto &#39;data2&#39; no encontrado
+<p>Show number of rows of data to see that is has been shorten because now it only has means:</p>
+
+<pre><code class="r">nrow(data3)
 </code></pre>
 
-<pre><code class="r">names(data3) = names(data2)[-ncol(data2)]
-</code></pre>
-
-<pre><code>## Error: objeto &#39;data2&#39; no encontrado
+<pre><code>## [1] 30
 </code></pre>
 
 </body>

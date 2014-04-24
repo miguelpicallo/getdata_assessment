@@ -26,7 +26,7 @@ The objective of the script *run_analysis.R* is to build a new tidy data set fro
 2. Extracts only the measurements on the mean and standard deviation for each measurement. 
 3. Uses descriptive activity names to name the activities in the data set
 4. Appropriately labels the data set with descriptive activity names. 
-5- Creates a second, independent tidy data set with the average of each variable for each activity and each subject. 
+5. Creates a second, independent tidy data set with the average of each variable for each activity and each subject. 
 
 ## Steps:
 
@@ -36,7 +36,7 @@ setwd('C:/Users/miguel/Documents/coursera/getting & cleaning Data')
 ```
 
 - Load data  (data has to be in file *getdata-projectfiles-UCI HAR Dataset*):
-```{r}
+```{r  codechunk}
 file=paste0(getwd(),'/getdata-projectfiles-UCI HAR Dataset/UCI HAR Dataset/train/X_train.txt')
 train=read.table(file)
 file=paste0(getwd(),'/getdata-projectfiles-UCI HAR Dataset/UCI HAR Dataset/test/X_test.txt')
@@ -62,6 +62,13 @@ names(data)[ncol(data)]='activity'
 names(data)[1:(ncol(data)-1)]=as.character(namesFeatures[,2])
 ```
 
+Show the number of rows for train, test and whole data:
+```{r}
+nrow(train)
+nrow(test)
+nrow(data)
+```
+
 - Extract only means and std:
 ```{r}
 data=cbind(data[,which( (grepl('mean',names(data)) | grepl('std',names(data))) & 
@@ -69,10 +76,20 @@ data=cbind(data[,which( (grepl('mean',names(data)) | grepl('std',names(data))) &
 names(data)[ncol(data)]='activity'
 ```
 
+Show the names of the columns:
+```{r}
+names(data)
+```
+
 - Name the activities with descriptive activity names:
 ```{r}
 namesActivities=as.character(namesActivities[,2])
 data$activity=as.factor(namesActivities[data$activity])
+```
+
+Show new names for activities:
+```{r}
+namesActivities
 ```
 
 - Tidy set with means for each subject and activity: 
@@ -88,4 +105,9 @@ for (i in 3:(ncol(data2)-1)){
   data3=cbind(data3,tapply(data2[,i],data2[,1],FUN=mean))
 }
 names(data3)=names(data2)[-ncol(data2)]
+```
+
+Show number of rows of data to see that is has been shorten because now it only has means:
+```{r}
+nrow(data3)
 ```

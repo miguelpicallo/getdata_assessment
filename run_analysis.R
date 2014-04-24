@@ -40,6 +40,9 @@ data=cbind(data[,which( (grepl('mean',names(data)) | grepl('std',names(data))) &
                     !(grepl('meanFreq',names(data)) ))] , data[,ncol(data)])
 names(data)[ncol(data)]='activity'
 
+# show the names:
+names(data)
+
 # 3. & 4 name the activities with descriptive activity names:
 
 # load activity names
